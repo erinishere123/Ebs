@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+  <title>随机酒单 · 66款经典</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f5f1ec;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .card {
+      max-width: 860px;
+      width: 100%;
+      background: #ffffffec;
+      backdrop-filter: blur(2px);
+      background: rgba(255, 250, 245, 0.9);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.2), 0 6px 18px rgba(0, 0, 0, 0.05);
+      border-radius: 48px;
+      padding: 2.5rem 2.2rem 2.8rem;
+      transition: all 0.2s ease;
+      border: 1px solid #ede8e2;
+    }
+
+    h1 {
+      font-size: 3.2rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: #2c241e;
+      margin-bottom: 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    h1 small {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #a28f7e;
+      margin-left: 0.75rem;
+      letter-spacing: 0.3px;
+    }
+
+    .subhead {
+      font-size: 0.95rem;
+      color: #8f7b69;
+      border-left: 3px solid #d4c5b8;
+      padding-left: 1rem;
+      margin-bottom: 2.5rem;
+      font-weight: 350;
+      letter-spacing: 0.2px;
+    }
+
+    .display-area {
+      background: #faf7f3;
+      border-radius: 32px;
+      padding: 1.8rem 1.2rem;
+      margin-bottom: 2.2rem;
+      border: 1px solid #e5dbd2;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: background 0.15s;
+    }
+
+    .cocktail-name {
+      font-size: 4.5rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: #1f1915;
+      line-height: 1.2;
+      word-break: break-word;
+      transition: transform 0.2s ease;
+    }
+    .placeholder-name {
+      font-size: 2.2rem;
+      font-weight: 350;
+      color: #b9aaa0;
+      letter-spacing: 0.4px;
+    }
+
+    .action-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem 1.2rem;
+      margin: 1.8rem 0 2rem;
+    }
+
+    .btn {
+      border: none;
+      background: #e7dfd8;
+      padding: 0.7rem 1.8rem;
+      border-radius: 80px;
+      font-size: 1.1rem;
+      font-weight: 460;
+      color: #2c241e;
+      cursor: pointer;
+      transition: 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      letter-spacing: 0.3px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #eae3db;
+      border: 1px solid #d6cbc1;
+      flex: 0 1 auto;
+      min-width: 120px;
+      line-height: 1.2;
+    }
+    .btn .en {
+      font-size: 0.7rem;
+      font-weight: 300;
+      color: #6b5d51;
+      letter-spacing: 0.2px;
+      margin-top: 2px;
+      opacity: 0.8;
+    }
+    .btn-primary {
+      background: #2c241e;
+      border-color: #2c241e;
+      color: white;
+      box-shadow: 0 4px 10px rgba(44, 36, 30, 0.15);
+    }
+    .btn-primary .en {
+      color: #d4c5b8;
+    }
+    .btn-primary:hover {
+      background: #1f1915;
+      transform: scale(1.01);
+    }
+    .btn-primary:active {
+      transform: scale(0.97);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #cbbdb2;
+      color: #3f352e;
+    }
+    .btn-outline:hover {
+      background: #ede5dd;
+      border-color: #b3a396;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      filter: grayscale(0.2);
+    }
+
+    .btn-answer {
+      background: #d9cdc0;
+      border-color: #bfafa0;
+      color: #1f1915;
+    }
+    .btn-answer:hover {
+      background: #cfc0b0;
+    }
+    .btn-frequency {
+      background: #ddd2c7;
+      border-color: #c9bbb0;
+      color: #2c241e;
+    }
+    .btn-frequency:hover {
+      background: #d0c3b6;
+    }
+    .btn-reset-count {
+      background: #d1c3b8;
+      border-color: #bfafa0;
+      color: #2c241e;
+      margin-top: 0.5rem;
+      min-width: 100px;
+      padding: 0.4rem 1.2rem;
+    }
+    .btn-reset-count:hover {
+      background: #c4b4a6;
+    }
+
+    .answer-wrapper {
+      margin-top: 2rem;
+      border-top: 1px dashed #dacfc6;
+      padding-top: 1.8rem;
+      transition: all 0.2s;
+    }
+
+    .answer-box {
+      background: #f8f3ee;
+      border-radius: 24px;
+      padding: 1.6rem 1.8rem;
+      border-left: 6px solid #b7a392;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #2b221d;
+      white-space: pre-wrap;
+      word-break: break-word;
+      display: none;
+    }
+
+    .answer-box.show {
+      display: block;
+    }
+
+    .cocktail-img {
+      margin-top: 0.8rem;
+      border-radius: 16px;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid #ddd2c7;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+      background: #f0e8e0;
+      padding: 4px;
+    }
+
+    .frequency-wrapper {
+      margin-top: 2rem;
+      border-top: 1px dashed #dacfc6;
+      padding-top: 1.8rem;
+    }
+
+    .frequency-box {
+      background: #f8f3ee;
+      border-radius: 24px;
+      padding: 1.2rem 1.5rem;
+      border-left: 6px solid #b7a392;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+      margin-top: 1rem;
+    }
+    .frequency-box.show {
+      display: block;
+    }
+    .frequency-box table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    .frequency-box th {
+      text-align: left;
+      font-weight: 500;
+      color: #4d3e34;
+      border-bottom: 2px solid #dacfc6;
+      padding: 0.4rem 0.2rem;
+    }
+    .frequency-box td {
+      padding: 0.3rem 0.2rem;
+      border-bottom: 1px solid #e5dbd2;
+    }
+    .frequency-box .count {
+      text-align: right;
+      font-weight: 450;
+      padding-left: 1rem;
+    }
+    .frequency-box .zero {
+      color: #b9aaa0;
+    }
+    .frequency-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0.8rem;
+    }
+
+    .footnote {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: #a69484;
+      text-align: right;
+      letter-spacing: 0.2px;
+    }
+
+    @media (max-width: 540px) {
+      .card { padding: 1.8rem 1.2rem; }
+      h1 { font-size: 2.4rem; flex-wrap: wrap; }
+      .cocktail-name { font-size: 3rem; }
+      .action-group { gap: 0.8rem; }
+      .btn { min-width: 100px; padding: 0.6rem 1rem; font-size: 1rem; }
+      .display-area { padding: 1.2rem 0.8rem; min-height: 80px; }
+      .frequency-box { max-height: 300px; }
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1>
+    🥃 随机酒单
+    <small>· 66款经典</small>
+  </h1>
+  <div class="subhead">全部来自原酒单 · 配方 & 参考图</div>
+
+  <div class="display-area" id="displayArea">
+    <span class="cocktail-name placeholder-name" id="cocktailName">点击开始</span>
+  </div>
+
+  <div class="action-group">
+    <button class="btn btn-primary" id="randomBtn">
+      <span class="zh">开始随机</span>
+      <span class="en">Start Random</span>
+    </button>
+    <button class="btn btn-outline" id="resetBtn" disabled>
+      <span class="zh">重置</span>
+      <span class="en">Reset</span>
+    </button>
+    <button class="btn btn-answer" id="answerBtn" disabled>
+      <span class="zh">查看答案</span>
+      <span class="en">View Answer</span>
+    </button>
+  </div>
+
+  <div class="answer-wrapper">
+    <div class="answer-box" id="answerBox">
+      <div id="answerContent"></div>
+    </div>
+  </div>
+
+  <!-- 查看频率 -->
+  <div class="frequency-wrapper">
+    <button class="btn btn-frequency" id="frequencyBtn">
+      <span class="zh">查看频率</span>
+      <span class="en">View Frequency</span>
+    </button>
+    <div class="frequency-box" id="frequencyBox">
+      <div id="frequencyContent"></div>
+      <div class="frequency-actions">
+        <button class="btn btn-reset-count" id="resetCountBtn">
+          <span class="zh">重置计数</span>
+          <span class="en">Reset Count</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footnote">— 配图来自原酒单图片占位 —</div>
+</div>
+
+<script>
+  (function() {
+    // ---------- 占位图片 (来自原酒单) ----------
+    const placeholderImg = (name) => `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%23ece3da'/%3E%3Ctext x='50%25' y='50%25' font-size='18' font-family='system-ui' fill='%236b5d51' text-anchor='middle' dy='.3em'%3E📄 ${name}%3C/text%3E%3C/svg%3E`;
+
+    // ---------- 66款鸡尾酒数据 (全部来自你提供的图片) ----------
+    const cocktailData = [
+      { name: "Gin & Tonic", details: `GLASS: Highball\nICE: Cubed\nMETHOD: Build\n\nINGREDIENTS:\n• Gin – 40 ml (1½ oz)\n• Tonic – Fill\n\nGARNISH: Lime wedge (optional)`, img: placeholderImg("Gin & Tonic") },
+      { name: "Spirit & Mixer", details: `GLASS: Highball\nICE: Cubed\nMETHOD: Build\n\nINGREDIENTS:\n• Spirit – 40 ml (1½ oz)\n• Mixer – Fill\n\nGARNISH: Optional`, img: placeholderImg("Spirit & Mixer") },
+      { name: "Cuba Libre", details: `GLASS: Highball\nICE: Cubed\nMETHOD: Build\n\nINGREDIENTS:\n• Light Rum – 40 ml (1½ oz)\n• Fresh Lime Juice – 10 ml (½ oz)\n• Coca-Cola – Fill\n\nGARNISH: Lime wedge\nOPTIONAL: Cubata (Dark Rum)`, img: placeholderImg("Cuba Libre") },
+      { name: "Tequila Sunrise", details: `GLASS: Highball\nICE: Cubed\nMETHOD: Build & Sink\n\nINGREDIENTS:\n• Tequila – 40 ml (1½ oz)\n• Orange Juice – Fill\n• Grenadine – 10 ml (½ oz) (Sink)\n\nGARNISH: None\nOPTIONAL: None`, img: placeholderImg("Tequila Sunrise") },
+      { name: "Rusty Nail", details: `GLASS: Rocks\nICE: Cubed\nMETHOD: Build\n\nINGREDIENTS:\n• Grant's Scotch Whisky – 30 ml (1 oz)\n• Drambuie – 30 ml (1 oz)\n\nGARNISH: Lemon Zest\nOPTIONAL: None`, img: placeholderImg("Rusty Nail") },
+      { name: "Godfather", details: `GLASS: Rocks\nICE: Cubed\nMETHOD: Build\n\nINGREDIENTS:\n• Grant's Scotch Whisky – 30 ml (1 oz)\n• Amaretto – 30 ml (1 oz)\n\nGARNISH: None\nOPTIONAL: Godmother (replace Scotch with Vodka)`, img: placeholderImg("Godfather") },
+      { name: "Black Russian", details: `GLASS: Rocks\nICE: Cubed\nMETHOD: Build\n\nINGREDIENTS:\n• Vodka – 40 ml (1½ oz)\n• Coffee Liqueur – 20 ml (¾ oz)\n\nGARNISH: None\nOPTIONAL: None`, img: placeholderImg("Black Russian") },
+      { name: "White Russian", details: `GLASS: Rocks\nICE: Cubed\nMETHOD: Build\n\nINGREDIENTS:\n• Vodka – 40 ml (1½ oz)\n• Coffee Liqueur – 20 ml (¾ oz)\n• Milk – Fill\n\nGARNISH: None\nOPTIONAL: Replace Milk with Cream / Colorado Bulldog (top with Coca Cola)`, img: placeholderImg("White Russian") },
+      { name: "Moscow Mule", details: `GLASS: Highball / Copper Mug\nICE: Cubed\nMETHOD: Build\n\nINGREDIENTS:\n• Vodka – 40 ml (1½ oz)\n• Fresh Lime Juice – 20 ml (¾ oz)\n• Ginger Beer – Fill\n\nGARNISH: Lime wedge\nOPTIONAL: Missouri Mule (Southern Comfort) / Jamaican Mule (Spiced Rum)`, img: placeholderImg("Moscow Mule") },
+      { name: "Woo Woo", details: `GLASS: Highball\nICE: Cubed\nMETHOD: Build\n\nINGREDIENTS:\n• Vodka – 20 ml (¾ oz)\n• Peach Liqueur – 20 ml (¾ oz)\n• Cranberry Juice – Fill\n\nGARNISH: Lime Wedge\nOPTIONAL: Cape Codder (replace Peach Liqueur with Vodka)`, img: placeholderImg("Woo Woo") },
+      { name: "Americano", details: `GLASS: Rocks\nICE: Cubed\nMETHOD: Build & Stir\n\nINGREDIENTS:\n• Sweet Vermouth – 30 ml (1 oz)\n• Campari – 30 ml (1 oz)\n• Soda Water – Fill\n\nGARNISH: Orange zest or slice\nOPTIONAL: None`, img: placeholderImg("Americano") },
+      { name: "Screaming Orgasm", details: `GLASS: Rocks\nICE: Cubed\nMETHOD: Shake & Strain\n\nINGREDIENTS:\n• Vodka – 10 ml (½ oz)\n• Coffee Liqueur – 10 ml (½ oz)\n• Amaretto – 10 ml (½ oz)\n• Baileys – 10 ml (½ oz)\n• Milk – 40 ml (1½ oz)\n\nGARNISH: None\nOPTIONAL: Replace Milk with Cream / Orgasm (no Vodka)`, img: placeholderImg("Screaming Orgasm") },
+      { name: "El Diablo", details: `GLASS: Highball\nICE: Cubed\nMETHOD: Build\n\nINGREDIENTS:\n• Tequila – 30 ml (1 oz)\n• Crème de Cassis – 10 ml (½ oz)\n• Fresh Lime Juice – 10 ml (½ oz)\n• Ginger Ale – Fill\n\nGARNISH: Lime Wedge\nOPTIONAL: None`, img: placeholderImg("El Diablo") },
+      { name: "Sex on the Beach", details: `GLASS: Highball\nICE: Cubed\nMETHOD: Build\n\nINGREDIENTS:\n• Vodka – 20 ml (¾ oz)\n• Peach Liqueur – 20 ml (¾ oz)\n• Cranberry Juice – Fill (equal parts with OJ)\n• Orange Juice – Fill (equal parts)\n\nGARNISH: None\nOPTIONAL: None`, img: placeholderImg("Sex on the Beach") },
+      { name: "Cosmopolitan", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Citron Vodka – 40 ml (1½ oz)\n• Triple Sec – 20 ml (¾ oz)\n• Fresh Lime Juice – 10 ml (½ oz)\n• Cranberry Juice – 30 ml (1 oz)\n\nGARNISH: Orange Zest\nOPTIONAL: Flamed Orange Zest`, img: placeholderImg("Cosmopolitan") },
+      { name: "Daiquiri", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Light Rum – 60 ml (2 oz)\n• Fresh Lime Juice – 30 ml (1 oz)\n• Sugar Syrup – 15 ml (½ oz)\n\nGARNISH: None\nOPTIONAL: Fresh Fruit Daiquiri (add fruit & fruit liqueur)`, img: placeholderImg("Daiquiri") },
+      { name: "French Martini", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Vodka – 40 ml (1½ oz)\n• Chambord – 20 ml (¾ oz)\n• Pineapple Juice – 40 ml (1½ oz)\n\nGARNISH: 1 Raspberry\nOPTIONAL: Muddle Fresh Pineapple, Pineapple Leaf Garnish`, img: placeholderImg("French Martini") },
+      { name: "Lynchburg Lemonade", details: `GLASS: Highball\nICE: Cubed\nMETHOD: Shake & Strain\n\nINGREDIENTS:\n• Jack Daniel's – 40 ml (1½ oz)\n• Triple Sec – 20 ml (¾ oz)\n• Fresh Lemon Juice – 20 ml (¾ oz)\n• Sugar Syrup – 10 ml (½ oz)\n• Lemonade – Top\n\nGARNISH: Lemon Wedge\nOPTIONAL: None`, img: placeholderImg("Lynchburg Lemonade") },
+      { name: "Horse's Neck", details: `GLASS: Highball\nICE: Cubed\nMETHOD: Build\n\nINGREDIENTS:\n• Aromatic Bitters – 2 Dashes\n• Bourbon – 40 ml (1½ oz)\n• Ginger Ale – Fill\n\nGARNISH: Lemon Spiral\nOPTIONAL: Replace Bourbon with Brandy`, img: placeholderImg("Horse's Neck") },
+      { name: "Tom Collins", details: `GLASS: Highball\nICE: Cubed\nMETHOD: Shake & Strain\n\nINGREDIENTS:\n• Gin – 60 ml (2 oz)\n• Fresh Lemon Juice – 30 ml (1 oz)\n• Sugar Syrup – 15 ml (½ oz)\n• Soda Water – Top\n\nGARNISH: Lemon Wedge\nOPTIONAL: John Collins (replace Gin with Bourbon)`, img: placeholderImg("Tom Collins") },
+      { name: "Long Island Iced Tea", details: `GLASS: Highball\nICE: Cubed\nMETHOD: Shake & Strain\n\nINGREDIENTS:\n• Vodka – 20 ml (½ oz)\n• Light Rum – 20 ml (½ oz)\n• Gin – 20 ml (½ oz)\n• Tequila – 20 ml (½ oz)\n• Triple Sec – 20 ml (½ oz)\n• Fresh Lemon Juice – 20 ml (¾ oz)\n• Sugar Syrup – 10 ml (½ oz)\n• Coca-Cola – Top\n\nGARNISH: Lemon Wedge\nOPTIONAL: Long Beach (Cranberry) / Beverly Hills (Champagne)`, img: placeholderImg("Long Island Iced Tea") },
+      { name: "Dry Martini", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Stir & Julep Strain\n\nINGREDIENTS:\n• Dry Vermouth – 1 Barspoon\n• Gin or Vodka – 60 ml (2 oz)\n\nGARNISH: Olives or Lemon Zest\nOPTIONAL: Naked (only Gin) / Dirty (2 Barspoons Olive Brine) / Wet (more Vermouth) / Gibson (Pearl Onions)`, img: placeholderImg("Dry Martini") },
+      { name: "Manhattan (Sweet)", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Stir & Julep Strain\n\nINGREDIENTS:\n• Aromatic Bitters – 2 Dashes\n• Sweet Vermouth – 20 ml (¾ oz)\n• Bourbon – 60 ml (2 oz)\n\nGARNISH: 1 Cherry\nOPTIONAL: Dry (Dry Vermouth, lemon zest) / Perfect (both Vermouths & both garnishes)`, img: placeholderImg("Manhattan (Sweet)") },
+      { name: "Rob Roy", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Stir & Julep Strain\n\nINGREDIENTS:\n• Aromatic Bitters – 2 Dashes\n• Sweet Vermouth – 20 ml (¾ oz)\n• Grant's Scotch Whisky – 60 ml (2 oz)\n\nGARNISH: 1 Cherry\nOPTIONAL: None`, img: placeholderImg("Rob Roy") },
+      { name: "Paloma", details: `GLASS: Highball\nICE: Cubed\nMETHOD: Shake & Strain\n\nINGREDIENTS:\n• Tequila – 60 ml (2 oz)\n• Pink Grapefruit Juice – 60 ml (2 oz)\n• Fresh Lime Juice – 10 ml (½ oz)\n• Sugar Syrup – 10 ml (½ oz)\n• Soda Water – Top\n\nGARNISH: Salt Rim & Grapefruit Slice\nOPTIONAL: None`, img: placeholderImg("Paloma") },
+      { name: "Margarita", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Tequila – 40 ml (1½ oz)\n• Triple Sec – 20 ml (¾ oz)\n• Fresh Lime Juice – 30 ml (1 oz)\n• Sugar Syrup – 10 ml (½ oz)\n\nGARNISH: Salt Rim\nOPTIONAL: Tommy's (replace Triple Sec & sugar with Agave) / Frozen (add crushed ice & double syrup)`, img: placeholderImg("Margarita") },
+      { name: "Side Car", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Cognac – 40 ml (1½ oz)\n• Triple Sec – 20 ml (¾ oz)\n• Fresh Lemon Juice – 30 ml (1 oz)\n• Sugar Syrup – 10 ml (½ oz)\n\nGARNISH: Sugar Rim\nOPTIONAL: None`, img: placeholderImg("Side Car") },
+      { name: "Amaretto Sour", details: `GLASS: Rocks\nICE: Cubed\nMETHOD: Dry Shake, Shake & Strain\n\nINGREDIENTS:\n• Aromatic Bitters – 2 Dashes\n• Foamer (egg white) – 30 ml (1 oz)\n• Amaretto – 30 ml (1 oz)\n• Fresh Lemon Juice – 10 ml (½ oz)\n\nGARNISH: Lemon Wedge & Cherry\nOPTIONAL: Midori Sour (replace Amaretto with Midori)`, img: placeholderImg("Amaretto Sour") },
+      { name: "Whiskey Sour", details: `GLASS: Sour Glass / Rocks\nICE: None / Cubed\nMETHOD: Dry Shake, Shake & Fine Strain\n\nINGREDIENTS:\n• Aromatic Bitters – 2 Dashes\n• Foamer (egg white) – 30 ml (1 oz)\n• Bourbon – 60 ml (2 oz)\n• Fresh Lemon Juice – 30 ml (1 oz)\n• Sugar Syrup – 15 ml (½ oz)\n\nGARNISH: Orange Zest & Cherry\nOPTIONAL: New York Sour (top with Red Wine)`, img: placeholderImg("Whiskey Sour") },
+      { name: "Clover Club", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Dry Shake, Shake & Fine Strain\n\nINGREDIENTS:\n• Foamer (egg white) – 15 ml (½ oz)\n• Re'al Raspberry Puree – 15 ml (½ oz)\n• Gin – 60 ml (2 oz)\n• Fresh Lemon Juice – 30 ml (1 oz)\n\nGARNISH: 1 Raspberry\nOPTIONAL: None`, img: placeholderImg("Clover Club") },
+      { name: "Bramble", details: `GLASS: Rocks\nICE: Crushed\nMETHOD: Shake, Strain & Float\n\nINGREDIENTS:\n• Gin – 40 ml (1½ oz)\n• Fresh Lemon Juice – 20 ml (¾ oz)\n• Sugar Syrup – 10 ml (½ oz)\n• Crème de Mure – 20 ml (¾ oz) (Float)\n\nGARNISH: Lemon Wedge & 2 Blackberries\nOPTIONAL: None`, img: placeholderImg("Bramble") },
+      { name: "Mojito", details: `GLASS: Highball\nICE: Crushed\nMETHOD: Muddle, Build & Churn\n\nINGREDIENTS:\n• Lime Wedges – 4 Wedges\n• Sugar Syrup – 20 ml (¾ oz)\n• Mint Leaves – 8-12 Leaves\n• Light Rum – 60 ml (2 oz)\n• Soda – Fill\n\nGARNISH: Mint Sprig\nOPTIONAL: Fruit Mojito (add fruit & fruit liqueur)`, img: placeholderImg("Mojito") },
+      { name: "Caipirinha", details: `GLASS: Rocks\nICE: Crushed\nMETHOD: Muddle, Build & Churn\n\nINGREDIENTS:\n• Lime Wedges – 6 Wedges\n• Sugar Syrup – 20 ml (¾ oz)\n• Cachaça – 60 ml (2 oz)\n\nGARNISH: Lime Wedge\nOPTIONAL: Fruit Caipirinha / Caipiroska (replace Cachaça with Vodka)`, img: placeholderImg("Caipirinha") },
+      { name: "Mint Julep", details: `GLASS: Rocks / Julep\nICE: Crushed\nMETHOD: Soak, Muddle, Build & Churn\n\nINGREDIENTS:\n• Bittered Sugar Cube – 1 Cube\n• Soda Water – 1 Barspoon\n• Mint Leaves – 8-12 Leaves\n• Bourbon – 60 ml (2 oz)\n\nGARNISH: Mint Sprig\nOPTIONAL: None`, img: placeholderImg("Mint Julep") },
+      { name: "Gin Basil Smash", details: `GLASS: Rocks\nICE: Cubed\nMETHOD: Muddle, Shake & Strain\n\nINGREDIENTS:\n• Basil Leaves – 8-12 Leaves\n• Gin – 60 ml (2 oz)\n• Fresh Lemon Juice – 20 ml (¾ oz)\n• Sugar Syrup – 10 ml (½ oz)\n\nGARNISH: Basil Leaf\nOPTIONAL: None`, img: placeholderImg("Gin Basil Smash") },
+      { name: "Southside", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Mint Leaves – 8-12 Leaves\n• Gin – 60 ml (2 oz)\n• Fresh Lime Juice – 20 ml (¾ oz)\n• Sugar Syrup – 10 ml (½ oz)\n\nGARNISH: Single Mint Leaf\nOPTIONAL: None`, img: placeholderImg("Southside") },
+      { name: "B52", details: `GLASS: Shooter\nICE: None\nMETHOD: Layer in Order\n\nINGREDIENTS:\n• Coffee Liqueur – 20 ml (½ oz)\n• Baileys – 20 ml (½ oz)\n• Triple Sec – 20 ml (½ oz)\n\nGARNISH: None\nOPTIONAL: Replace Triple Sec with Cointreau`, img: placeholderImg("B52") },
+      { name: "Pornstar Martini", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Vodka – 40 ml (1½ oz)\n• Passionfruit Liqueur – 20 ml (¾ oz)\n• Re'al Passionfruit Puree – 20 ml (¾ oz)\n• Fresh Lime Juice – 20 ml (¾ oz)\n• Vanilla Syrup – 10 ml (¼ oz)\n• Brut Champagne – Shot on the side\n\nGARNISH: Dehydrated lime wheel\nOPTIONAL: Upgrade with Vanilla Vodka and Fresh Passionfruit`, img: placeholderImg("Pornstar Martini") },
+      { name: "Bellini", details: `GLASS: Champagne Flute\nICE: None\nMETHOD: Build\n\nINGREDIENTS:\n• Re'al Peach Puree – 10 ml (½ oz)\n• Peach Liqueur – 10 ml (½ oz)\n• Prosecco – Fill\n\nGARNISH: None\nOPTIONAL: Rossini (strawberry puree & liqueur)`, img: placeholderImg("Bellini") },
+      { name: "French 75", details: `GLASS: Champagne Flute\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Gin – 40 ml (1½ oz)\n• Fresh Lemon Juice – 20 ml (⅔ oz)\n• Sugar Syrup – 10 ml (¼ oz)\n• Champagne – Top\n\nGARNISH: Lemon Zest\nOPTIONAL: None`, img: placeholderImg("French 75") },
+      { name: "Last Word", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Gin – 20 ml (¾ oz)\n• Maraschino – 20 ml (¾ oz)\n• Fresh Lime Juice – 20 ml (¾ oz)\n• Green Chartreuse – 20 ml (¾ oz)\n\nGARNISH: Cherry\nOPTIONAL: None`, img: placeholderImg("Last Word") },
+      { name: "Naked & Famous", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Mezcal – 20 ml (¾ oz)\n• Aperol – 20 ml (¾ oz)\n• Yellow Chartreuse – 20 ml (¾ oz)\n• Fresh Lime Juice – 20 ml (¾ oz)\n\nGARNISH: None\nOPTIONAL: None`, img: placeholderImg("Naked & Famous") },
+      { name: "Old Fashioned", details: `GLASS: Rocks\nICE: Cubed\nMETHOD: Build\n\nINGREDIENTS:\n• Aromatic Bitters – 2 Dashes\n• Bourbon – 60 ml (2 oz)\n• Sugar Syrup – 10 ml (¼ oz)\n\nGARNISH: Orange Zest\nOPTIONAL: Replace Bourbon with any aged spirit`, img: placeholderImg("Old Fashioned") },
+      { name: "Dark & Stormy", details: `GLASS: Highball\nICE: Cubed\nMETHOD: Build\n\nINGREDIENTS:\n• Fresh Lime Juice – 20 ml (½ oz)\n• Ginger Beer – Fill\n• Dark Rum – 40 ml (1½ oz) (Float)\n\nGARNISH: Lime Wedge\nOPTIONAL: Use Goslings Black Rum / Fidel Castro (Ginger Ale)`, img: placeholderImg("Dark & Stormy") },
+      { name: "Hemingway Daiquiri", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Light Rum – 50 ml (1½ oz)\n• Maraschino – 10 ml (¼ oz)\n• Fresh Lime Juice – 20 ml (¾ oz)\n• Grapefruit Juice – 20 ml (¾ oz)\n\nGARNISH: Cherry\nOPTIONAL: On the Rocks (served in rocks glass with cubed ice)`, img: placeholderImg("Hemingway Daiquiri") },
+      { name: "White Lady", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Gin – 40 ml (1½ oz)\n• Triple Sec – 20 ml (¾ oz)\n• Fresh Lemon Juice – 30 ml (1 oz)\n• Sugar Syrup – 10 ml (½ oz)\n\nGARNISH: Lemon Zest\nOPTIONAL: Pink Lady (add dash of Grenadine)`, img: placeholderImg("White Lady") },
+      { name: "Bloody Mary", details: `GLASS: Highball\nICE: Cubed / None\nMETHOD: Build\n\nINGREDIENTS:\n• Vodka – 40 ml (1½ oz)\n• Fresh Lemon Juice – 10 ml (½ oz)\n• Bloody Mary Pre-Batch – 120 ml (4 oz)\n• Worcestershire Sauce – 30 ml (1 oz)\n• Tabasco – 10 ml (⅓ oz)\n• Black Pepper & Celery Salt to taste\n\nGARNISH: Celery Stick\nOPTIONAL: Pre-batch recipe included`, img: placeholderImg("Bloody Mary") },
+      { name: "Negroni", details: `GLASS: Rocks\nICE: Cubed\nMETHOD: Stir\n\nINGREDIENTS:\n• Sweet Vermouth – 20 ml (¾ oz)\n• Campari – 20 ml (¾ oz)\n• Gin – 20 ml (¾ oz)\n\nGARNISH: Orange zest or slice\nOPTIONAL: Negroni Sbagliato (Prosecco) / Boulevardier (Bourbon)`, img: placeholderImg("Negroni") },
+      { name: "Continental Sour", details: `GLASS: Rocks\nICE: Cubed\nMETHOD: Dry Shake, Shake, Strain & Float\n\nINGREDIENTS:\n• Foamer (egg white) – 5 Dashes\n• Bourbon – 60 ml (2 oz)\n• Fresh Lemon Juice – 30 ml (1 oz)\n• Sugar Syrup – 15 ml (½ oz)\n• Ruby Port – 10 ml (¼ oz) (Float)\n\nGARNISH: Orange Zest\nOPTIONAL: Replace foamer with 15ml Egg White`, img: placeholderImg("Continental Sour") },
+      { name: "Aperol Spritz", details: `GLASS: Rocks / Wine Glass\nICE: Cubed\nMETHOD: Build in Order\n\nINGREDIENTS:\n• Prosecco – 60 ml (2 oz)\n• Aperol – 40 ml (1½ oz)\n• Soda Water – 20 ml (¾ oz)\n\nGARNISH: Orange Slice\nOPTIONAL: None`, img: placeholderImg("Aperol Spritz") },
+      { name: "Mimosa", details: `GLASS: Champagne Flute\nICE: None\nMETHOD: Build\n\nINGREDIENTS:\n• Orange Juice – 1 Part\n• Champagne – 1 Part\n\nGARNISH: None\nOPTIONAL: None`, img: placeholderImg("Mimosa") },
+      { name: "Espresso Martini", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake\n\nINGREDIENTS:\n• Vodka – 40 ml (1½ oz)\n• Coffee Liqueur – 20 ml (¾ oz)\n• Espresso – 1 shot\n• Sugar Syrup – 10 ml (¼ oz) (optional)\n\nGARNISH: 3 Coffee Beans\nOPTIONAL: Sugar Syrup depends on coffee bitterness`, img: placeholderImg("Espresso Martini") },
+      { name: "Brandy Alexander", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake\n\nINGREDIENTS:\n• Brandy – 40 ml (1½ oz)\n• Dark Cacao Liqueur – 20 ml (¾ oz)\n• Milk – 40 ml (1½ oz)\n\nGARNISH: Grated Nutmeg\nOPTIONAL: Alexander (replace Brandy with Gin) / Replace Milk with Half & Half`, img: placeholderImg("Brandy Alexander") },
+      { name: "Mai Tai", details: `GLASS: Rocks / Tiki Mug\nICE: Crushed\nMETHOD: Shake & Strain\n\nINGREDIENTS:\n• Dark Rum – 40 ml (1½ oz)\n• Triple Sec – 10 ml (⅓ oz)\n• Fresh Lime Juice – 20 ml (¾ oz)\n• Orgeat Syrup – 10 ml (⅓ oz)\n• Overproof Rum – 10 ml (⅓ oz) (Float)\n\nGARNISH: Mint Sprig\nOPTIONAL: None`, img: placeholderImg("Mai Tai") },
+      { name: "Kir Royal", details: `GLASS: Champagne Flute\nICE: None\nMETHOD: Build\n\nINGREDIENTS:\n• Crème de Cassis – 20 ml (¾ oz)\n• Champagne – Fill\n\nGARNISH: None\nOPTIONAL: Kir (replace Champagne with White Wine)`, img: placeholderImg("Kir Royal") },
+      { name: "Classic Champagne Cocktail", details: `GLASS: Champagne Flute\nICE: None\nMETHOD: Soak & Build\n\nINGREDIENTS:\n• Bittered Sugar Cube – 1 Cube\n• Cognac – 20 ml (¾ oz)\n• Champagne – Fill\n\nGARNISH: None\nOPTIONAL: None`, img: placeholderImg("Classic Champagne Cocktail") },
+      { name: "Blood & Sand", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Grant's Scotch Whisky – 20 ml (¾ oz)\n• Sweet Vermouth – 20 ml (¾ oz)\n• Cherry Brandy – 20 ml (¾ oz)\n• Orange Juice – 20 ml (¾ oz)\n\nGARNISH: Orange Zest\nOPTIONAL: None`, img: placeholderImg("Blood & Sand") },
+      { name: "Apple Martini", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Vodka – 40 ml (1½ oz)\n• Apple Liqueur – 20 ml (¾ oz)\n• Fresh Lemon Juice – 30 ml (1 oz)\n• Sugar Syrup – 10 ml (½ oz)\n\nGARNISH: Lemon Zest\nOPTIONAL: Apple Leaf`, img: placeholderImg("Apple Martini") },
+      { name: "Kamikaze", details: `GLASS: Shooter\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Vodka – 20 ml (¾ oz)\n• Triple Sec – 10 ml (¼ oz)\n• Fresh Lime Juice – 10 ml (¼ oz)\n\nGARNISH: None\nOPTIONAL: None`, img: placeholderImg("Kamikaze") },
+      { name: "Singapore Sling", details: `GLASS: Highball / Sling\nICE: Cubed\nMETHOD: Shaken & Stirred\n\nINGREDIENTS:\n• Aromatic Bitters – 1 Dash\n• Grenadine – 5 ml\n• Benedictine D.O.M – 5 ml\n• Triple Sec – 10 ml\n• Cherry Brandy – 10 ml\n• Fresh Lime Juice – 20 ml\n• Gin – 80 ml\n• Pineapple Juice – 80 ml\n\nGARNISH: Pineapple Wedge & Cherry\nOPTIONAL: None`, img: placeholderImg("Singapore Sling") },
+      { name: "Gimlet", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Stir & Julep Strain\n\nINGREDIENTS:\n• Gin – 60 ml (2 oz)\n• Lime Cordial – 10 ml (½ oz)\n\nGARNISH: Lime Zest\nOPTIONAL: Pink Gin (replace with Aromatic Bitters and Lemon Zest)`, img: placeholderImg("Gimlet") },
+      { name: "Martinez", details: `GLASS: Chilled Martini / Coupe\nICE: None\nMETHOD: Stir & Julep Strain\n\nINGREDIENTS:\n• Orange Bitters – 2 Dashes\n• Maraschino – 1 Barspoon\n• Sweet Vermouth – 20 ml (¾ oz)\n• Gin – 60 ml (2 oz)\n\nGARNISH: Lemon Zest\nOPTIONAL: None`, img: placeholderImg("Martinez") },
+      { name: "Sazerac", details: `GLASS: Rocks\nICE: None\nMETHOD: Rinse, Stir & Julep Strain\n\nINGREDIENTS:\n• Absinthe – Rinse\n• Peychaud's Bitters – 3 Dashes\n• Cognac or Rye – 60 ml (2 oz)\n• Sugar Syrup – 10 ml (¼ oz)\n\nGARNISH: Lemon Zest\nOPTIONAL: Use Peychaud's and Aromatic Bitters`, img: placeholderImg("Sazerac") },
+      { name: "Zombie", details: `GLASS: Highball / Tiki Mug\nICE: Crushed\nMETHOD: Shake & Strain\n\nINGREDIENTS:\n• Aromatic Bitters – 2 Dashes\n• Absinthe – 10 ml\n• Overproof Rum – 20 ml\n• Grenadine – 10 ml\n• Dark Rum – 40 ml\n• Light Rum – 40 ml\n• Fresh Lime Juice – 20 ml\n• Cinnamon Syrup – 10 ml\n• Grapefruit Juice – 40 ml\n\nGARNISH: Mint Sprig\nOPTIONAL: Add falernum and garnish with cinnamon stick`, img: placeholderImg("Zombie") },
+      { name: "Piña Colada", details: `GLASS: Highball / Hurricane\nICE: Cubed\nMETHOD: Shake & Strain\n\nINGREDIENTS:\n• Light Rum – 40 ml (1½ oz)\n• Coconut Liqueur – 20 ml (¾ oz)\n• Fresh Lime Juice – 10 ml (½ oz)\n• Pineapple Juice – 60 ml (2 oz)\n• Coco Re'al Coconut Cream – 40 ml (1½ oz)\n\nGARNISH: Pineapple wedge & Cherry\nOPTIONAL: None`, img: placeholderImg("Piña Colada") },
+      { name: "Lemon Drop", details: `GLASS: Shooter\nICE: None\nMETHOD: Shake & Fine Strain\n\nINGREDIENTS:\n• Vodka – 20 ml (¾ oz)\n• Fresh Lemon Juice – 10 ml (½ oz)\n• Sugar Syrup – 10 ml (½ oz)\n\nGARNISH: Sugar rim (optional)\nOPTIONAL: None`, img: placeholderImg("Lemon Drop") }
+    ];
+
+    // DOM 元素
+    const cocktailNameEl = document.getElementById('cocktailName');
+    const randomBtn = document.getElementById('randomBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const answerBtn = document.getElementById('answerBtn');
+    const answerBox = document.getElementById('answerBox');
+    const answerContent = document.getElementById('answerContent');
+    const frequencyBtn = document.getElementById('frequencyBtn');
+    const frequencyBox = document.getElementById('frequencyBox');
+    const frequencyContent = document.getElementById('frequencyContent');
+    const resetCountBtn = document.getElementById('resetCountBtn');
+
+    // 状态
+    let isRolling = false;
+    let rollInterval = null;
+    let currentIndex = -1;
+    let answerVisible = false;
+    let frequencyVisible = false;
+
+    // 频率数组 (初始0)
+    const frequency = new Array(cocktailData.length).fill(0);
+
+    // ---------- 辅助函数 ----------
+    function getCocktailName(index) {
+      if (index < 0 || index >= cocktailData.length) return null;
+      return cocktailData[index].name;
+    }
+
+    function getCocktailDetails(index) {
+      if (index < 0 || index >= cocktailData.length) return null;
+      return cocktailData[index].details;
+    }
+
+    function getCocktailImg(index) {
+      if (index < 0 || index >= cocktailData.length) return null;
+      return cocktailData[index].img || '';
+    }
+
+    function displayCocktailName(index) {
+      if (index < 0 || index >= cocktailData.length) {
+        cocktailNameEl.textContent = '✨ 选一款';
+        cocktailNameEl.className = 'cocktail-name placeholder-name';
+        return;
+      }
+      const name = getCocktailName(index);
+      cocktailNameEl.textContent = name;
+      cocktailNameEl.className = 'cocktail-name';
+    }
+
+    function renderAnswer(index) {
+      if (index < 0 || index >= cocktailData.length) {
+        answerContent.innerHTML = '<span style="color:#b9aaa0;">尚未选择任何酒款</span>';
+        return;
+      }
+      const details = getCocktailDetails(index);
+      const imgUrl = getCocktailImg(index);
+      let html = '';
+      if (details) {
+        const formatted = details.split('\n').map(line => {
+          if (line.trim().startsWith('•')) {
+            return `<span style="display:block; padding-left: 0.5rem;">${line}</span>`;
+          }
+          return line;
+        }).join('<br>');
+        html += `<div>${formatted}</div>`;
+      }
+      if (imgUrl) {
+        html += `<img class="cocktail-img" src="${imgUrl}" alt="${getCocktailName(index)}" loading="lazy" onerror="this.style.display='none'">`;
+      }
+      answerContent.innerHTML = html;
+    }
+
+    // 更新频率显示
+    function renderFrequency() {
+      // 按次数降序排列
+      const sorted = cocktailData.map((item, idx) => ({
+        name: item.name,
+        count: frequency[idx],
+        index: idx
+      })).sort((a, b) => b.count - a.count || a.index - b.index);
+
+      let html = `<table>
+        <thead><tr><th>酒款</th><th style="text-align:right;">次数</th></tr></thead><tbody>`;
+      sorted.forEach(item => {
+        const zeroClass = item.count === 0 ? 'zero' : '';
+        html += `<tr><td>${item.name}</td><td class="count ${zeroClass}">${item.count}</td></tr>`;
+      });
+      html += `</tbody></table>`;
+      frequencyContent.innerHTML = html;
+    }
+
+    // 重置计数
+    function resetFrequency() {
+      for (let i = 0; i < frequency.length; i++) {
+        frequency[i] = 0;
+      }
+      renderFrequency();
+    }
+
+    // 停止滚动并更新频率
+    function stopRollingAndPick() {
+      if (rollInterval) {
+        clearInterval(rollInterval);
+        rollInterval = null;
+      }
+      isRolling = false;
+      randomBtn.innerHTML = `<span class="zh">开始随机</span><span class="en">Start Random</span>`;
+      randomBtn.disabled = false;
+
+      // 随机选择一款
+      const selectedIdx = Math.floor(Math.random() * cocktailData.length);
+      if (selectedIdx === -1) return;
+      currentIndex = selectedIdx;
+      frequency[currentIndex]++;  // 增加计数
+      displayCocktailName(currentIndex);
+      resetBtn.disabled = false;
+      answerBtn.disabled = false;
+      // 如果答案打开则关闭
+      if (answerVisible) {
+        answerBox.classList.remove('show');
+        answerVisible = false;
+        answerBtn.innerHTML = `<span class="zh">查看答案</span><span class="en">View Answer</span>`;
+      }
+      answerContent.innerHTML = '';
+      // 如果频率面板打开，刷新显示
+      if (frequencyVisible) {
+        renderFrequency();
+      }
+    }
+
+    // 重置所有（重置选择，但不重置频率）
+    function resetAll() {
+      if (isRolling) {
+        if (rollInterval) {
+          clearInterval(rollInterval);
+          rollInterval = null;
+        }
+        isRolling = false;
+        randomBtn.innerHTML = `<span class="zh">开始随机</span><span class="en">Start Random</span>`;
+        randomBtn.disabled = false;
+      }
+      currentIndex = -1;
+      displayCocktailName(-1);
+      resetBtn.disabled = true;
+      answerBtn.disabled = true;
+      answerBox.classList.remove('show');
+      answerVisible = false;
+      answerBtn.innerHTML = `<span class="zh">查看答案</span><span class="en">View Answer</span>`;
+      answerContent.innerHTML = '';
+    }
+
+    // ---------- 事件绑定 ----------
+    // 开始/停止随机
+    randomBtn.addEventListener('click', function() {
+      if (isRolling) {
+        // 停止滚动，选取一款
+        stopRollingAndPick();
+      } else {
+        // 开始滚动
+        // 隐藏答案
+        answerBox.classList.remove('show');
+        answerVisible = false;
+        answerBtn.innerHTML = `<span class="zh">查看答案</span><span class="en">View Answer</span>`;
+        answerBtn.disabled = true;
+        resetBtn.disabled = true;
+
+        if (rollInterval) clearInterval(rollInterval);
+        isRolling = true;
+        randomBtn.innerHTML = `<span class="zh">停止随机</span><span class="en">Stop Random</span>`;
+
+        // 快速闪烁
+        const firstIdx = Math.floor(Math.random() * cocktailData.length);
+        displayCocktailName(firstIdx);
+        rollInterval = setInterval(() => {
+          const randomIdx = Math.floor(Math.random() * cocktailData.length);
+          displayCocktailName(randomIdx);
+        }, 80);
+      }
+    });
+
+    // 重置按钮
+    resetBtn.addEventListener('click', resetAll);
+
+    // 查看答案
+    answerBtn.addEventListener('click', function() {
+      if (currentIndex < 0 || currentIndex >= cocktailData.length) return;
+      if (answerVisible) {
+        answerBox.classList.remove('show');
+        answerVisible = false;
+        answerBtn.innerHTML = `<span class="zh">查看答案</span><span class="en">View Answer</span>`;
+      } else {
+        renderAnswer(currentIndex);
+        answerBox.classList.add('show');
+        answerVisible = true;
+        answerBtn.innerHTML = `<span class="zh">收起答案</span><span class="en">Hide Answer</span>`;
+      }
+    });
+
+    // 查看频率
+    frequencyBtn.addEventListener('click', function() {
+      if (frequencyVisible) {
+        frequencyBox.classList.remove('show');
+        frequencyVisible = false;
+        frequencyBtn.innerHTML = `<span class="zh">查看频率</span><span class="en">View Frequency</span>`;
+      } else {
+        renderFrequency();
+        frequencyBox.classList.add('show');
+        frequencyVisible = true;
+        frequencyBtn.innerHTML = `<span class="zh">收起频率</span><span class="en">Hide Frequency</span>`;
+      }
+    });
+
+    // 重置计数
+    resetCountBtn.addEventListener('click', function() {
+      resetFrequency();
+    });
+
+    // 初始化
+    displayCocktailName(-1);
+    resetBtn.disabled = true;
+    answerBtn.disabled = true;
+  })();
+</script>
+</body>
+</html>
